@@ -13,10 +13,11 @@
     }
   ],
   "keywords": [
-    "nodeS7",
-    "nodePCCC",
+    "nodes7",
+    "nodepccc",
     "mcprocotol",
-    "PLC"
+    "PLC",
+    "Siemens"
   ],
   "repository": {
     "type": "git",
