@@ -149,10 +149,12 @@ Controller.prototype.createPoll = function(packet,  cb, timeout){
 
   self.addItems(values);
 
-  function poll(){
+  function poll(ts){
     tick = Date.now();
     // toggle this to simulate slow results
     //self.simulateSlowReadAllItems(
+    // console.log(self.ts);
+
     self.readAllItems(
       function(){
       var results = {}, value;
@@ -172,7 +174,12 @@ Controller.prototype.createPoll = function(packet,  cb, timeout){
       diff = Math.min(diff,timeout);  // In case clock changes while running
       //console.log(diff);
       cb(null, results);
-      self.pollId = setTimeout(poll,diff);
+      // console.log('@@@ Poll', self.ts == ts);
+      if(self.ts == ts){
+        self.ts = Date.now();
+        self.pollId = setTimeout(poll,diff, self.ts);
+      }
+      // console.log('@@@ Poll NEW', self.pollId);
     });
   }
   poll();
@@ -180,7 +187,9 @@ Controller.prototype.createPoll = function(packet,  cb, timeout){
 
 Controller.prototype.clearPoll = function(){
   var self = this;
+  self.ts = null;
   clearTimeout(self.pollId);
+  // console.log('!!! clearPoll', self.pollId);
 }
 
 exports.findItem = function(tags, cb){
@@ -231,6 +240,7 @@ exports.createSubscription = function(tags, cb, timeout){
     timeout = 0;
   }
   
+  // skip match requests for the same tag data
   token = crypto.createHash('md5').update(String(tags)).digest('hex');
   if(subscriptions[token]){
     return;
