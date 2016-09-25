@@ -216,7 +216,7 @@ exports.write = function(tag, value, cb){
       // TODO: improve security
 //      if (tagObj.ctrl && controllers[tagObj.ctrl].cparams.allowWrite) {
         console.log('Writing value ' + value + ' to '+ util.format(tagObj));
-        controllers[tagObj.ctrl].writeItems(tagObj.value, value);
+        controllers[tagObj.ctrl].writeItems(tagObj.value, value, cb);
 //      } else {
 //        console.log('Not writing value ' + value + ' to '+ util.format(tagObj) + ' due to error (no allowWrite?)!!!');    
 //      }
@@ -383,6 +383,7 @@ function tagLookup(tag, cb){
   if(packet){
     //console.log(tag,'from cache');
     cb(null, packet);
+    return;
   }
 
   // first check default controller
