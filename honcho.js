@@ -293,6 +293,17 @@ exports.browse = function(parent, cb){
   cb(tagset);
 }
 
+exports.alltags = function(){
+	var self = this;
+	var tagobj = {};
+	Object.keys(controllers).forEach(function(ct){
+        if (ct !== "default") {
+            tagobj[ct] = controllers[ct].tags;
+        }
+	});
+	return tagobj;
+}
+
 /**
  * INTERNAL functions
  */
