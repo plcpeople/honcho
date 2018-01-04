@@ -234,7 +234,7 @@ exports.write = function(tag, value, cb){
   });
 }
 
-exports.createSubscription = function(tags, cb, timeout){
+exports.createSubscription = function(tags, cb, timeout, callCBAnyway){
 
   if(typeof timeout === 'undefined'){
     timeout = 0;
@@ -256,7 +256,13 @@ exports.createSubscription = function(tags, cb, timeout){
       console.log(err);
     }
     Object.keys(controllerPackets).forEach(function(key) {
-      controllers[key].createPoll(controllerPackets[key], cb, timeout);
+        if (controllers[key]) {
+            controllers[key].createPoll(controllerPackets[key], cb, timeout);
+        } else if (callCBAnyway) {
+            setInterval(function() {
+	        cb(null, {});
+            }, timeout);
+        }
     }); 
   });
 
@@ -269,7 +275,7 @@ exports.removeSubscription = function(token){
     throw new Error('A valid token must be supplied to remove a subscription');
   }
   Object.keys(controllerPacketSubscription.controllerPackets).forEach(function(key) {
-    controllers[key].clearPoll();
+    controllers[key] && controllers[key].clearPoll(); // It is possible to have undefined controllers here now.
   }); 
 }
 
@@ -418,16 +424,34 @@ function tagLookup(tag, cb){
   // check other controllers
   m=TAGREG.exec(tag);
   //console.log(m);
-  if(!m){
-    cb(new Error("INVALID TAG FORMAT"));
-    return;
+  if (!m) {
+      console.log(tag);
+    //cb(new Error("INVALID TAG FORMAT"));
+    //return;
   }
 
   //
   ctrl = controllers[m[1]];
   if(typeof ctrl === 'undefined' || typeof ctrl.tags[m[2]] === 'undefined'){
-    cb(new Error('INVALID TAG'));
-    return;
+      if (typeof ctrl !== 'undefined') {
+        console.log("ctrl.tags[m[2]]");
+        console.log(ctrl.tags[m[2]]);
+        console.log("m[2]");
+        console.log(m[2]);
+      } else {
+          console.log("Undefined controller");
+      }
+
+// We no longer return on invalid tags.     cb(new Error('INVALID TAG'));
+// We no longer return on invalid tags.     return;
+      if (!ctrl) {
+          ctrl = {};
+      }
+      if (!ctrl.tags) {
+          ctrl.tags = {};
+      }
+      ctrl.tags[m[2]] = {};
+      ctrl.tags[m[2]].value = "UNDF";
   } 
   
   tagCache[tag] = {ctrl:m[1],value:ctrl.tags[m[2]]};

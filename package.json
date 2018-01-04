@@ -1,7 +1,7 @@
 {
   "name": "honcho",
   "description": "Abstraction layer for multiple PLC controller interfaces",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "author": {
     "name": "Darren Pearce",
     "email": "limeyd@gmail.com"
@@ -26,8 +26,9 @@
   "main": "honcho.js",
   "dependencies": {
     "mcprotocol": "^0.1.1",
-    "nodepccc": "^0.1.3",
-    "nodes7": "^0.1.1"
+    "nodepccc": "^0.1.7",
+    "nodes7": "^0.2.5",
+    "mbtcpprotocol": "^0.1.0"
   },
   "engine": "node 0.10.x",
   "license": "MIT"
