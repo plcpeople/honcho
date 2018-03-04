@@ -393,7 +393,11 @@ function generateControllerPackets(tags, cb){
         return next(tags.shift());
       });
     } else {
-      cb(null,controllerPackets);
+      if (typeof (tag) === 'undefined') {
+        cb(null, controllerPackets);
+      } else {
+        return next(tags.shift());
+      }
     }
   }
   next(tags.shift());
