@@ -12,6 +12,7 @@ var crypto = require('crypto')
   , fs = require('fs')
   , util = require('util')
   , path = require('path')
+  , async = require('async')
 ;
 
 /**
@@ -70,24 +71,21 @@ exports.configure = function(config, cb){
 
   tagFileDir = config.tagFileDir;
 
-  function done(){
-    // map default controller
-    controllers['default'] = controllers[config.defaultController];
-    cb();
-  }
-
-  var ctrls = config.controllers.slice();  
-  function next(ctrl){
+  async.each(config.controllers, function(ctrl, cback) {
     if(ctrl){
       controllers[ctrl.connection_name] = new Controller(ctrl, function(){
-        next(ctrls.shift());
+        cback();
       });
     }else{
-      done(null);
-      return;
+      cback();// Could cback('Null controller')?
     }
-  }
-  next(ctrls.shift());
+  }, function(err) {
+    if (err) {
+      console.log('An error was received processing controllers in honcho');
+    }
+    controllers['default'] = controllers[config.defaultController];
+    cb();
+  });
 }
 
 function bounce(n){return n;}
