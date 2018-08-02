@@ -1,3 +1,7 @@
+Version: 0.2.2
+--------------
+- Fix for crash when a tag is specified that is undefined on default controller but has no other controller specified
+
 Version: 0.2.1
 --------------
 - Version bump to use nodes7 0.3.1 instead of 0.3.0
