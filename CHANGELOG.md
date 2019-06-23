@@ -1,6 +1,14 @@
+Version: 0.2.3
+--------------
+- (Actual) Fix for crash when a tag is specified that is undefined on default controller but has no other c
+- Removal of lodash as an unused dependency
+- Version bump to use nodepccc 0.1.13
+- Version bump to use nodes7 0.3.4
+- Improvement to multiple controller documentation
+
 Version: 0.2.2
 --------------
-- Fix for crash when a tag is specified that is undefined on default controller but has no other controller specified
+- (Attempted) Fix for crash when a tag is specified that is undefined on default controller but has no other controller specified
 
 Version: 0.2.1
 --------------

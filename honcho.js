@@ -427,7 +427,9 @@ function tagLookup(tag, cb){
   m=TAGREG.exec(tag);
   //console.log(m);
   if (!m) {
+      console.log("Not on Default Controller and None Specified:");
       console.log(tag);
+      m = [tag, '', tag]; // Arrange the array with no controller
     //cb(new Error("INVALID TAG FORMAT"));
     //return;
   }

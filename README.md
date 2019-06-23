@@ -1,7 +1,7 @@
 honcho
 ======
 
-Honcho is a multiple PLC connection manager for Node.JS using nodes7/nodepccc/mcprotocol or other libraries that use a similar API to those.
+Honcho is a multiple PLC connection manager for Node.JS using nodes7/nodepccc/mcprotocol/mbtcpprotocol or other libraries that use a similar API to those.
 
 Normally Honcho will be called by a program that configures it and subscribes to its polls, like a server that streams PLC data over a Websocket or TCP stream.
 
@@ -12,12 +12,14 @@ First create a tag to address translation file using a text editor:
 testplctags.txt should have only one line for the following example to work:
 	MYTAG=DB99,INT0
 
+When you specify tags you need to prefix the tag name with the PLC name and a "/" as a separator.  If you specify a default controller, (defaultController object), this will be used by default.
+
 Example application:
 
 	var honcho = require('honcho');
 
 	config = {
-		defaultController: 'TESTPLC',
+		defaultController: 'TESTPLC',  /* This is optional, if you omit it, you must always prefix tags with the connection_name */
 		tagFileDir: '.',
 		controllers: [
 			{ host: '192.168.1.2',
@@ -25,7 +27,13 @@ Example application:
 			port: 102,
 			slot: 1, 	/* See NodeS7 docs - slot 1 for 1200/1500, slot 2 for 300 */
 			type: 'nodes7',
-      			tagfile: './testplctags.txt' }
+      			tagfile: './testplctags.txt' },
+			{ host: '192.168.1.2',
+			connection_name: 'TESTPLC2',
+			port: 102,
+			slot: 1, 	/* See NodeS7 docs - slot 1 for 1200/1500, slot 2 for 300 */
+			type: 'nodes7',
+      			tagfile: './testplctags.txt' }  /* For this example we are pointing to the same file like a second PLC running the same program */
   			],
 
   		/* Define one or more tagsets to be subscribed to */
@@ -34,6 +42,9 @@ Example application:
   		/* Define one or more tags to be subscribed to */
 		tags : {
 			'MYTAG':{
+			tagsets:['status']
+			},
+			'TESTPLC2/MYTAG':{
 			tagsets:['status']
 			}		
 		}
@@ -45,12 +56,12 @@ Example application:
 	}
 
 	honcho.configure(config, function(){
-		honcho.createSubscription(['MYTAG'], readDone, 500);
+		honcho.createSubscription(['MYTAG','TESTPLC2/MYTAG'], readDone, 500);
 	});
 
 This will log the following every 500ms:
 
-	{ MYTAG: 0 }
+	{ MYTAG: 0 } and { 'TESTPLC/MYTAG2': 0 }
 
 
 
