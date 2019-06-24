@@ -2,7 +2,7 @@
  * Honcho
  *
  * Multiple PLC Manager
- * 
+ *
  */
 
 /**
@@ -16,7 +16,7 @@ var crypto = require('crypto')
 ;
 
 /**
- * Expose 
+ * Expose
  */
 
 exports = module.exports;
@@ -27,7 +27,7 @@ exports = module.exports;
 
 var subscriptions = {};
 
-/** 
+/**
  * PLC interface collection
  */
 
@@ -105,14 +105,14 @@ function Controller(conf, cb){
   ['addItems','removeItems', 'readAllItems', 'findItem', 'writeItems'].forEach(function(method){
     self[method] = self.conn[method].bind(self.conn);
   });
-  
+
   //console.log(self);
 
   tagfile = path.join(tagFileDir, conf.tagfile);
-  
+
   if(tagFileLookCache[tagfile]){
     //console.log('Loading Shared Tags '+tagfile);
-    self.tags = tagFileLookCache[tagfile]; 
+    self.tags = tagFileLookCache[tagfile];
     self.conn.initiateConnection(cparams, cb);
   }else{
     var l,m, input;
@@ -216,16 +216,16 @@ exports.read = function(tags, cb){
     readPackets(controllerPackets, cb);
   });
 }
-  
+
 exports.write = function(tag, value, cb){
   tagLookup(tag, function(err, tagObj) {
-    if(!err) {    
+    if(!err) {
       // TODO: improve security
 //      if (tagObj.ctrl && controllers[tagObj.ctrl].cparams.allowWrite) {
         console.log('Writing value ' + value + ' to '+ util.format(tagObj));
         controllers[tagObj.ctrl].writeItems(tagObj.value, value, cb);
 //      } else {
-//        console.log('Not writing value ' + value + ' to '+ util.format(tagObj) + ' due to error (no allowWrite?)!!!');    
+//        console.log('Not writing value ' + value + ' to '+ util.format(tagObj) + ' due to error (no allowWrite?)!!!');
 //      }
     }
 //    process.exit();
@@ -237,7 +237,7 @@ exports.createSubscription = function(tags, cb, timeout, callCBAnyway){
   if(typeof timeout === 'undefined'){
     timeout = 0;
   }
-  
+
   // skip match requests for the same tag data
   token = crypto.createHash('md5').update(String(tags)).digest('hex');
   if(subscriptions[token]){
@@ -261,10 +261,10 @@ exports.createSubscription = function(tags, cb, timeout, callCBAnyway){
 	        cb(null, {});
             }, timeout);
         }
-    }); 
+    });
   });
 
-  return token; 
+  return token;
 }
 
 exports.removeSubscription = function(token){
@@ -274,7 +274,7 @@ exports.removeSubscription = function(token){
   }
   Object.keys(controllerPacketSubscription.controllerPackets).forEach(function(key) {
     controllers[key] && controllers[key].clearPoll(); // It is possible to have undefined controllers here now.
-  }); 
+  });
 }
 
 /**
@@ -321,7 +321,7 @@ function findPackets(controllerPackets, cb){
     var values = controllerPackets[key];
     //console.log(values);
     controllers[key].findItem(values,cb);
-  }); 
+  });
 }
 
 /**
@@ -366,7 +366,7 @@ function readPackets(controllerPackets,cb){
         //setTimeout(cb,1000, null, results);
         //cb(null, results);
       });
-  }); 
+  });
 }
 
 /**
@@ -456,8 +456,8 @@ function tagLookup(tag, cb){
       }
       ctrl.tags[m[2]] = {};
       ctrl.tags[m[2]].value = "UNDF";
-  } 
-  
+  }
+
   tagCache[tag] = {ctrl:m[1],value:ctrl.tags[m[2]]};
   cb(null, tagCache[tag]);
 }
@@ -486,4 +486,3 @@ function readLines(input, func) {
     func(remaining, true);
   });
 }
-
