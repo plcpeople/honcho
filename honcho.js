@@ -437,11 +437,17 @@ function tagLookup(tag, cb){
   //
   ctrl = controllers[m[1]];
   if(typeof ctrl === 'undefined' || typeof ctrl.tags[m[2]] === 'undefined'){
-      if (typeof ctrl !== 'undefined') {
-        console.log("ctrl.tags[m[2]]");
-        console.log(ctrl.tags[m[2]]);
-        console.log("m[2]");
-        console.log(m[2]);
+      if (typeof ctrl !== 'undefined') {  // Valid controller and invalid tag specification
+          console.log("ctrl.tags[m[2]]");
+          // no point logging undefined.        console.log(ctrl.tags[m[2]]);
+          if (ctrl.tagPassThrough) {
+            console.log("Passthrough enabled - tag found that isn't defined on the controller so we are assuming it's an address:");
+            console.log(m[2]);
+            ctrl.tags[m[2]] = m[2];
+          } else {
+            console.log("Passthrough not enabled - tag found that isn't defined on the controller:");
+            console.log(m[2]);
+          }
       } else {
           console.log("Undefined controller");
       }
@@ -454,8 +460,11 @@ function tagLookup(tag, cb){
       if (!ctrl.tags) {
           ctrl.tags = {};
       }
-      ctrl.tags[m[2]] = {};
-      ctrl.tags[m[2]].value = "UNDF";
+      if (!ctrl.tags[m[2]]) {
+          ctrl.tags[m[2]] = {};
+          ctrl.tags[m[2]].value = "UNDF";
+
+      }
   }
 
   tagCache[tag] = {ctrl:m[1],value:ctrl.tags[m[2]]};

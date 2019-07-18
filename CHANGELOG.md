@@ -1,3 +1,9 @@
+Version: 0.2.4
+--------------
+- Introduction of passthrough option for specification of PLC tags directly
+- Version bump to use nodes7 0.3.5
+- Version bump to use mbtcpprotocol 0.1.1
+
 Version: 0.2.3
 --------------
 - (Actual) Fix for crash when a tag is specified that is undefined on default controller but has no other c
