@@ -28,8 +28,8 @@
     "async": "^2.6.1",
     "mbtcpprotocol": "^0.1.0",
     "mcprotocol": "^0.1.1",
-    "nodepccc": "^0.1.13",
-    "nodes7": "^0.3.4"
+    "nodepccc": "^0.1.15",
+    "nodes7": "^0.3.7"
   },
   "engine": "node 4.4.x",
   "license": "MIT"
