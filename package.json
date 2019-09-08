@@ -25,7 +25,7 @@
   },
   "main": "honcho.js",
   "dependencies": {
-    "async": "^2.6.1",
+    "async": "^2.6.3",
     "mbtcpprotocol": "^0.1.0",
     "mcprotocol": "^0.1.1",
     "nodepccc": "^0.1.15",
