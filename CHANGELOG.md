@@ -1,3 +1,24 @@
+Version: 0.2.9
+--------------
+- Addition of honchoflatfile for reading flat files (.csv)
+- Pass in silent and debug if specified in config
+
+Version: 0.2.8
+--------------
+- Dependency version bump
+
+Version: 0.2.7
+--------------
+- Dependency version bump
+
+Version: 0.2.6
+--------------
+- Dependency version bump
+
+Version: 0.2.5
+--------------
+- Dependency version bump
+
 Version: 0.2.4
 --------------
 - Introduction of passthrough option for specification of PLC tags directly

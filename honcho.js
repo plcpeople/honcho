@@ -97,7 +97,7 @@ function Controller(conf, cb){
     , cparams;
 
   var Conn = require(conf.type);
-  self.conn = new Conn();
+  self.conn = new Conn({silent: conf.silent, debug: conf.debug});  // NodeS7 uses these options in the constructor
   self.conn.setTranslationCB(bounce);
   cparams = conf;  // Passing the entire object, not just port and host, allows protocol-specific options
 
