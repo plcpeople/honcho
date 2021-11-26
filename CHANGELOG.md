@@ -1,3 +1,11 @@
+Version: 0.3.0
+--------------
+- Addition of writeItems method
+- Major refactoring
+- Remove recursive funciton in generateControllerPackets
+- allowWrite is checked as a connection parameter
+- jsdoc comments
+
 Version: 0.2.9
 --------------
 - Addition of honchoflatfile for reading flat files (.csv)
