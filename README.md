@@ -22,19 +22,23 @@ Example application:
 		defaultController: 'TESTPLC',  /* This is optional, if you omit it, you must always prefix tags with the connection_name */
 		tagFileDir: '.',
 		controllers: [
-			{ host: '192.168.1.2',
-			connection_name: 'TESTPLC',
-			port: 102,
-			slot: 1, 	/* See NodeS7 docs - slot 1 for 1200/1500, slot 2 for 300 */
-			type: 'nodes7',
-      			tagfile: './testplctags.txt' },
-			{ host: '192.168.1.2',
-			connection_name: 'TESTPLC2',
-			port: 102,
-			slot: 1, 	/* See NodeS7 docs - slot 1 for 1200/1500, slot 2 for 300 */
-			type: 'nodes7',
-      			tagfile: './testplctags.txt' }  /* For this example we are pointing to the same file like a second PLC running the same program */
-  			],
+			{ 
+				host: '192.168.1.2',
+				connection_name: 'TESTPLC',
+				port: 102,
+				slot: 1, 	/* See NodeS7 docs - slot 1 for 1200/1500, slot 2 for 300 */
+				type: 'nodes7',
+      			tagfile: './testplctags.txt' 
+			},
+			{ 
+				host: '192.168.1.2',	
+				connection_name: 'TESTPLC2',
+				port: 102,
+				slot: 1, 	/* See NodeS7 docs - slot 1 for 1200/1500, slot 2 for 300 */
+				type: 'nodes7',
+      			tagfile: './testplctags.txt'   /* For this example we are pointing to the same file like a second PLC running the same program */
+			}
+  		],
 
   		/* Define one or more tagsets to be subscribed to */
 		tagsets: ['status'],
@@ -84,6 +88,9 @@ Reads specific tags and runs a callback with their values.  Note the callback is
 
 #### <a name="write"></a>honcho.write(tag, value, callback)
 Writes a specific tag and runs an optional callback with the result.
+
+#### <a name="writeItems"></a>honcho.writeItems(items, callback)
+Write any number of tags at once. Given an object mapping a tag name to the desired value. Tags can span multiple controllers on the network. DOES NOT fail on single controller write error unless you call done(err).
 
 #### <a name="createSubscription"></a>honcho.createSubscription(tag array, callback, interval)
 Sets up a subscription that will return the values of listed tags every timeout via the callback.  Returns a token useful for removing subscriptions.  Note the callback is called as callback(err, values).
