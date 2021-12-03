@@ -1,3 +1,7 @@
+Version: 0.3.1
+--------------
+- Remove node v17 as an unnecessary dependency
+
 Version: 0.3.0
 --------------
 - Addition of writeItems method
