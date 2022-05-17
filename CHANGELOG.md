@@ -1,3 +1,7 @@
+Version: 0.3.2
+--------------
+- Async, nodes7, mbtcpprotocol dependency version bump
+
 Version: 0.3.1
 --------------
 - Remove node v17 as an unnecessary dependency
