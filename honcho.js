@@ -53,6 +53,18 @@ var tagFileLookCache = {};
 var tagFileDir;
 
 /**
+ * 
+ */
+const commProtocols = {
+  nodes7commplus: require('nodes7commplus'),
+  nodes7: require('nodes7'),
+  mcprotocol: require('mcprotocol'),
+  mbtcpprotocol: require('mbtcpprotocol'),
+  nodepccc: require('nodepccc'),
+  serialipprotocol: require('serialipprotocol')
+}
+
+/**
  * Honcho
  * Public API
  */
@@ -99,7 +111,7 @@ function Controller(conf, cb) {
   var self = this;
   var tagfile;
 
-  var Conn = require(conf.type);
+  var Conn = commProtocols[conf.type];
   self.conn = new Conn({silent: conf.silent, debug: conf.debug});  // NodeS7 uses these options in the constructor
   self.conn.setTranslationCB(bounce);
   self.cparams = conf;  // Passing the entire object, not just port and host, allows protocol-specific options
