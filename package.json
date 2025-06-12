@@ -31,6 +31,7 @@
     "mcprotocol": "^0.1.2",
     "nodepccc": "^0.1.17",
     "nodes7": "^0.3.18",
+    "nodes7commplus": "^1.2.10",
     "serialipprotocol": "^0.1.1"
   },
   "engine": "node 12.x.x",
