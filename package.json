@@ -1,7 +1,7 @@
 {
   "name": "honcho",
   "description": "Abstraction layer for multiple PLC controller interfaces",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "author": {
     "name": "Darren Pearce",
     "email": "limeyd@gmail.com"
