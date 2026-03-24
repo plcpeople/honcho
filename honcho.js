@@ -56,7 +56,7 @@ var tagFileDir;
  * 
  */
 const commProtocols = {
-  nodes7commplus: require('nodes7commplus'),
+  //nodes7commplus: require('nodes7commplus'),
   nodes7: require('nodes7'),
   mcprotocol: require('mcprotocol'),
   mbtcpprotocol: require('mbtcpprotocol'),
@@ -111,6 +111,9 @@ function Controller(conf, cb) {
   var self = this;
   var tagfile;
 
+  // DEBUGGING
+  console.error(`honcho1: ${JSON.stringify(conf)}`);
+
   var Conn = commProtocols[conf.type];
   self.conn = new Conn({silent: conf.silent, debug: conf.debug});  // NodeS7 uses these options in the constructor
   self.conn.setTranslationCB(bounce);
@@ -126,6 +129,10 @@ function Controller(conf, cb) {
   if(tagFileLookCache[tagfile]){
     //console.log('Loading Shared Tags '+tagfile);
     self.tags = tagFileLookCache[tagfile];
+
+    // DEBUGGING
+    console.error(`honcho2: ${JSON.stringify(self.cparams)}`);
+
     self.conn.initiateConnection(self.cparams, cb);
   }else{
     var l,m, input;
