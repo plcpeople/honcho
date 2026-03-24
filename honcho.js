@@ -56,7 +56,7 @@ var tagFileDir;
  * 
  */
 const commProtocols = {
-  nodes7commplus: require('nodes7commplus'),
+  //nodes7commplus: require('nodes7commplus'),
   nodes7: require('nodes7'),
   mcprotocol: require('mcprotocol'),
   mbtcpprotocol: require('mbtcpprotocol'),
