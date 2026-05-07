@@ -61,7 +61,8 @@ const commProtocols = {
   mcprotocol: require('mcprotocol'),
   mbtcpprotocol: require('mbtcpprotocol'),
   nodepccc: require('nodepccc'),
-  serialipprotocol: require('serialipprotocol')
+  serialipprotocol: require('serialipprotocol'),
+  honchoflatfile: require('honchoflatfile')
 }
 
 /**
@@ -115,6 +116,14 @@ function Controller(conf, cb) {
   //console.error(`honcho1: ${JSON.stringify(conf)}`);
 
   var Conn = commProtocols[conf.type];
+
+  if (!Conn || typeof Conn !== 'function') {
+    const errorMsg = `Driver Error: Protocol "${conf.type}" is not supported or failed to load.`;
+    console.log(errorMsg);
+    // Return the callback with an error so the async loop knows this failed
+    return cb(new Error(errorMsg));
+  }
+
   self.conn = new Conn({silent: conf.silent, debug: conf.debug});  // NodeS7 uses these options in the constructor
   self.conn.setTranslationCB(bounce);
   self.cparams = conf;  // Passing the entire object, not just port and host, allows protocol-specific options
