@@ -1,3 +1,10 @@
+Version: 0.4.7
+--------------
+- honchoflatfile dependency bump
+
+Missing some versions in here :-(
+---------------------------------
+
 Version: 0.3.3
 --------------
 - nodes7 dependency version bump
